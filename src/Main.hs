@@ -6,7 +6,7 @@ import           Data.List.Split (splitOn)
 main :: IO ()
 main = do
   c <- getContents
-  let s = unlines $ map (buildDropSql . extraceTableName)
+  let s = unlines $ map (buildDropSql . extractTableName)
             $ filter (not . contain "id_seq")
             $ lines c
   putStrLn s
@@ -14,8 +14,8 @@ main = do
 type TableName = String
 
 
-extraceTableName :: String -> TableName
-extraceTableName= flip (!!) 1 . map trim . splitOn "|"
+extractTableName :: String -> TableName
+extractTableName= flip (!!) 1 . map trim . splitOn "|"
 
 buildDropSql :: TableName -> String
 buildDropSql tn = "drop table " ++ tn ++ ";"
